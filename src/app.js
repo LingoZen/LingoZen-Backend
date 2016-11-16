@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require("cors");
 var mysql = require('mysql');
+var elasticsearch = require('elasticsearch');
 
 /**
  * Routes
@@ -30,8 +31,6 @@ var errorHandlerController = new ErrorHandlerController();
  */
 var app = express();
 
-console.log('env ', app.get('env'));
-
 /**
  * DAO Initialization
  */
@@ -40,10 +39,10 @@ var BaseDao = require('./daos/base');
 /**
  * Start MySql Db
  */
-var connectionSettings;
+var dbConnectionSettings;
 switch (app.get('env')) {
     case 'production':
-        connectionSettings = {
+        dbConnectionSettings = {
             host: 'lzdbinst.chwoxmanchdt.us-east-1.rds.amazonaws.com',
             port: 3306,
             user: 'lzMaster',
@@ -53,7 +52,7 @@ switch (app.get('env')) {
         break;
     case 'development':
     default:
-        connectionSettings = {
+        dbConnectionSettings = {
             host: 'localhost',
             user: 'root',
             password: 'password',
@@ -61,8 +60,8 @@ switch (app.get('env')) {
         };
         break;
 }
-BaseDao.dbConnection = mysql.createConnection(connectionSettings);
 
+BaseDao.dbConnection = mysql.createConnection(dbConnectionSettings);
 BaseDao.dbConnection.connect((err) => {
     if (err) {
         console.error(err);
@@ -74,7 +73,29 @@ BaseDao.dbConnection.connect((err) => {
 /**
  * Start ES
  */
-//todo
+var esConnectionSettings;
+switch (app.get('env')) {
+    case 'production':
+        esConnectionSettings = {
+            host: 'search-lz-es-asjzii5ehwnhh3fmzpihgvcdrq.us-east-1.es.amazonaws.com:9200'
+        };
+        break;
+    case 'development':
+    default:
+        esConnectionSettings = {
+            host: 'localhost:9200'
+        };
+        break;
+}
+
+BaseDao.esClient = new elasticsearch.Client(esConnectionSettings);
+BaseDao.esClient.ping((err) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.info("Connected to ES Successfully");
+    }
+});
 
 /**
  * Pre-Routes

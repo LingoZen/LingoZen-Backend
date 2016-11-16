@@ -3,19 +3,15 @@ var SentenceController = require('../controllers/sentences');
 var express = require('express');
 var router = express.Router();
 
-var controller = new SentenceController();
-
 //define sentence routes
-router.get('/', controller.getAll);
-router.get('/:id', controller.getById);
-router.get('/:id/comments', controller.getAllCommentsForSentence);
+router.get('/', SentenceController.search);
+router.get('/:id', SentenceController.getById);
 
-router.post('/', controller.create);
-
-router.put('/:id', controller.update);
-
-router.delete('/:id', controller.remove);
-
+// router.post('/', SentenceController.create);
+//
+// router.put('/:id', SentenceController.update);
+//
+// router.delete('/:id', SentenceController.remove);
 
 //export routes
 module.exports = router;

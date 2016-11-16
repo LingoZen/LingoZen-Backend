@@ -22,8 +22,8 @@ app.set('port', port);
 /**
  * Set Server Credentials
  */
-var privateKey = fs.readFileSync('./x509/prod-key.pem').toString();
-var certificate = fs.readFileSync('./x509/prod-cert-public.pem').toString();
+var privateKey = fs.readFileSync('../../LingoZen-x509/prod-key.pem').toString();
+var certificate = fs.readFileSync('../../LingoZen-x509/prod-cert-public.pem').toString();
 var credentials = tls.createSecureContext({
   key: privateKey,
   cert: certificate,

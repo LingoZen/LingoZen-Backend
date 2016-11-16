@@ -1,43 +1,60 @@
+var RequestParameters = require('../util/request-parameters').RequestParameters;
+var SentenceService = require('../services/sentences');
+
 /**
  * Sentence Controller (Middleware)
  *
- * Takes requests from sentence routes (/sentence/), checks the request values, and calls the appropriate service layer functions.
+ * Takes requests from sentence routes (/sentences/), checks the request values, and calls the appropriate service layer functions.
  * Additional security (those not put in the routes) are also done here
  */
 module.exports = class SentenceController {
-    getAll(req, res, next) {
-        var request = new RequestParameters(req);
+    static search(req, res, next) {
+        let request = new RequestParameters(req);
 
-        return next(`function is not yet implemented`);
+        SentenceService.search(request.search).then((sentences) => {
+            res.send(sentences);
+        }).catch((err) => {
+            next(err);
+        });
     }
 
-    getById(req, res, next) {
-        var request = new RequestParameters(req);
+    static getById(req, res, next) {
+        let request = new RequestParameters(req);
 
-        return next(`function is not yet implemented`);
+        SentenceService.getById(request.id).then((sentence) => {
+            return res.send(sentence);
+        }).catch((err) => {
+            return next(err);
+        });
     }
 
-    getAllCommentsForSentence(req, res, next) {
-        var request = new RequestParameters(req);
-
-        return next(`function is not yet implemented`);
-    }
-
-    create(req, res, next) {
-        var request = new RequestParameters(req);
-
-        return next(`function is not yet implemented`);
-    }
-
-    update(req, res, next) {
-        var request = new RequestParameters(req);
-
-        return next(`function is not yet implemented`);
-    }
-
-    remove(req, res, next) {
-        var request = new RequestParameters(req);
-
-        return next(`function is not yet implemented`);
-    }
+    // static create(req, res, next) {
+    //     let request = new RequestParameters(req);
+    //
+    //     SentenceService.create(request.body).then((sentence) => {
+    //         return res.send(sentence);
+    //     }).catch((err) => {
+    //         return next(err);
+    //     });
+    // }
+    //
+    // static update(req, res, next) {
+    //     let request = new RequestParameters(req);
+    //
+    //     SentenceService.update(request.id, request.body, request.user.id).then((sentence) => {
+    //         return res.send(sentence);
+    //     }).catch((err) => {
+    //         return next(err);
+    //     });
+    // }
+    //
+    // static remove(req, res, next) {
+    //     let request = new RequestParameters(req);
+    //
+    //     SentenceService.remove(request.id, request.user.id).then((sentence) => {
+    //         return res.send(sentence);
+    //     }).catch((err) => {
+    //         return next(err);
+    //     });
+    // }
 };
