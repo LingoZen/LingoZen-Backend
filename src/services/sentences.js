@@ -18,11 +18,14 @@ module.exports = class SentenceService {
     static updatableProperties = [
         'description'
     ];
-    static propertiesRequiredToUpdate = [
-    ];
+    static propertiesRequiredToUpdate = [];
 
     static search(word) {
         return new Promise((resolve, reject) => {
+            if (!word) {
+                return reject('Search query not specified');
+            }
+
             //get all sentences
             SentenceDao.search(word).then((sentences) => {
                 resolve(sentences);
@@ -48,13 +51,13 @@ module.exports = class SentenceService {
             var whiteListedSentence = this.createObjectFromWhiteList(sentence, this.creatableProperties);
             var missingProperty;
             this.propertiesRequiredToCreate.some((property) => {
-                if(!whiteListedSentence[property]){
+                if (!whiteListedSentence[property]) {
                     return missingProperty = property;
                 }
             });
 
-            if(missingProperty){
-                return reject(new Error('Missing Property '+ missingProperty));
+            if (missingProperty) {
+                return reject(new Error('Missing Property ' + missingProperty));
             }
 
             return SentenceDao.create(whiteListedSentence).then((sentences)=> {
@@ -81,16 +84,16 @@ module.exports = class SentenceService {
                 var whiteListedSentence = this.createObjectFromWhiteList(newSentence, this.updatableProperties);
                 var missingProperty;
                 this.propertiesRequiredToUpdate.some((property) => {
-                    if(!whiteListedSentence[property]){
+                    if (!whiteListedSentence[property]) {
                         return missingProperty = property;
                     }
                 });
 
-                if(missingProperty){
-                    return reject(new Error('Missing Property '+ missingProperty));
+                if (missingProperty) {
+                    return reject(new Error('Missing Property ' + missingProperty));
                 }
 
-                if(!Object.keys(whiteListedSentence).length){
+                if (!Object.keys(whiteListedSentence).length) {
                     return reject(new Error("Updating with a empty object"));
                 }
 
