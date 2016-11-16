@@ -1,0 +1,7 @@
+Babel
+
+* Development:
+babel src --out-dir dist --watch --source-maps
+
+* Production
+babel src --out-dir dist-prod
