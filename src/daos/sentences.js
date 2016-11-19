@@ -44,10 +44,12 @@ module.exports = class SentenceDao {
             let sentence = {};
             let translations = [];
             var translationsWithComments = [];
+            var index = 'lingozen-' + id.split('_')[0];
+
             async.series([
                 function getSentenceFromEs(cb) {
                     BaseDao.esClient.get({
-                        index: '_all',
+                        index: index,
                         type: 'sentence',
                         id: id
                     }, (error, response) => {
@@ -69,7 +71,13 @@ module.exports = class SentenceDao {
                             return cb(err);
                         }
 
-                        translations = responses;
+                        translations = responses.hits.hits.map((translations)=> {
+                            return translations._source;
+                        }).filter((a) => {
+                            return a;
+                        });
+
+                        cb();
                     });
                 },
                 function getCommentsForSentences(cb) {
