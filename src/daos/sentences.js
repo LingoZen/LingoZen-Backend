@@ -27,8 +27,6 @@ module.exports = class SentenceDao {
                         }
 
                         sentences[hit._source.language].push(hit._source);
-                    }).filter((hit) => {
-                        return hit;
                     });
                 }
 
