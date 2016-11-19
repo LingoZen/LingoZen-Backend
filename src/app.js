@@ -76,7 +76,7 @@ var esConnectionSettings;
 switch (app.get('env')) {
     case 'production':
         esConnectionSettings = {
-            host: 'search-lz-es-asjzii5ehwnhh3fmzpihgvcdrq.us-east-1.es.amazonaws.com:9200'
+            host: 'search-lz-es-asjzii5ehwnhh3fmzpihgvcdrq.us-east-1.es.amazonaws.com'
         };
         break;
     case 'development':

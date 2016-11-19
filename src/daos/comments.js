@@ -1,6 +1,24 @@
 var BaseDao = require('../daos/base');
 
 module.exports = class CommentDao {
+    static getBySentenceId(id){
+        return new Promise((resolve, reject) => {
+            var query = 'SELECT * FROM Comment WHERE idSentence = ?';
+            var queryOptions = [
+                //idSentence
+                id
+            ];
+
+            return BaseDao.dbConnection.query(query, queryOptions, function (err, results) {
+                if (err) {
+                    return reject(err)
+                }
+
+                return resolve(results);
+            });
+        });
+    }
+
     static getAll(limit, skip) {
         return new Promise((resolve, reject) => {
             var query = 'SELECT * FROM Comment LIMIT ? OFFSET ?';

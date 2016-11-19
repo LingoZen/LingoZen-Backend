@@ -2,7 +2,6 @@ var SentenceDao = require('../daos/sentences');
 
 /**
  * Sentence Service (Middleware)
- *
  */
 module.exports = class SentenceService {
     static creatableProperties = [

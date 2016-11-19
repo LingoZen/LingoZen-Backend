@@ -1,83 +1,112 @@
 var BaseDao = require('../daos/base');
+var CommentDao = require('../daos/comments');
 var Bodybuilder = require('bodybuilder');
 var async = require('async');
 
 module.exports = class SentenceDao {
     static search(word) {
         return new Promise((resolve, reject) => {
-            return BaseDao.esClient.cat.indices({
-                h: 'index'
-            }, function (err, response) {
-                if (err) {
-                    return reject(err);
+            var sentences = {};
+            var query = new Bodybuilder()
+                .query('match', 'text', word)
+                .build('v2');
+
+            BaseDao.esClient.search({
+                index: '_all',
+                body: query
+            }, function (error, response) {
+                if (error) {
+                    return reject(error);
                 }
 
-                var indices = response.split('\n').filter((index)=> {
-                    return index && index.length
-                });
-
-
-                var sentences = {};
-                async.each(indices, function (index, cb) {
-                    var query = new Bodybuilder()
-                        .query('match', 'text', word)
-                        .build('v2');
-
-                    BaseDao.esClient.search({
-                        index: index,
-                        body: query
-                    }, function (error, response) {
-                        if (error) {
-                            return cb(error);
+                var hits = response.hits && response.hits.hits;
+                if (hits && hits.length) {
+                    hits.forEach((hit) => {
+                        if (!sentences[hit._source.language]) {
+                            sentences[hit._source.language] = [];
                         }
 
-                        var hits = response.hits && response.hits.hits;
-                        if (hits && hits.length) {
-                            sentences[index.split('-')[1]] = hits;
-                        }
-
-                        cb();
+                        sentences[hit._source.language].push(hit._source);
+                    }).filter((hit) => {
+                        return hit;
                     });
-                }, function (err) {
-                    if (err) {
-                        return reject(err);
-                    }
+                }
 
-                    return resolve(sentences);
-                });
+                return resolve(sentences);
             });
         });
     }
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            //first we need to get tje sentence from the id.
-            var languagePrefix = id.split("_")[0];
+            var translationOfQuery = new Bodybuilder()
+                .query('match', 'translationOf', id)
+                .build('v2');
 
-            return BaseDao.esClient.indices.exists({
-                index: 'lingozen-' + languagePrefix
-            }, function (err, response) {
+            let sentence = {};
+            let translations = [];
+            var translationsWithComments = [];
+            async.series([
+                function getSentenceFromEs(cb) {
+                    BaseDao.esClient.get({
+                        index: '_all',
+                        type: 'sentence',
+                        id: id
+                    }, (error, response) => {
+                        if (error) {
+                            return cb(error);
+                        }
+
+                        sentence = response._source;
+                        cb();
+                    });
+                },
+                function getTranslations(cb) {
+                    BaseDao.esClient.search({
+                        index: '_all',
+                        type: 'sentence',
+                        body: translationOfQuery
+                    }, (err, responses) => {
+                        if (err) {
+                            return cb(err);
+                        }
+
+                        translations = responses;
+                    });
+                },
+                function getCommentsForSentences(cb) {
+                    CommentDao.getBySentenceId(id).then((comments)=> {
+                        sentence.comments = comments;
+                        cb();
+                    }).catch((err)=> {
+                        cb(err);
+                    });
+                },
+                function getCommentsForTranslations(cb) {
+                    async.each(translations, (translation) => {
+                        CommentDao.getBySentenceId((translation.id)).then((comments)=> {
+                            translation.comments = comments;
+                            translationsWithComments.push(JSON.parse(JSON.stringify(translation)));
+                            cb();
+                        }).catch((err)=> {
+                            cb(err);
+                        });
+                    }, (comments, err) => {
+                        if (err) {
+                            return cb(err);
+                        }
+
+                        cb();
+                    });
+                }
+            ], function (err) {
                 if (err) {
                     return reject(err);
                 }
 
-                if (!response) {
-                    return reject(new Error(`Language ${languagePrefix} doesn't exist`));
-                }
+                sentence.translations = translationsWithComments;
 
-                BaseDao.esClient.get({
-                    index: 'lingozen-' + languagePrefix,
-                    type: 'sentence',
-                    id: id
-                }, function (error, response) {
-                    if (error) {
-                        return reject(error);
-                    }
-
-                    console.log('the response was ', response._source);
-
-                    resolve(response._source);
-                });
+                return resolve(sentence);
             });
         });
     }
