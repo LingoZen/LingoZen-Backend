@@ -1,5 +1,6 @@
 var UserDao = require('../daos/users');
 var jwt = require('jsonwebtoken');
+var jwtSig = "NaizakNaizakNaizakNaizak";
 
 /**
  * User Service (Middleware)
@@ -48,7 +49,7 @@ module.exports = class UserService {
         return new Promise((resolve, reject) => {
             UserDao.getByUsernameAndPassword(username, password).then((user) => {
                 if (user) {
-                    user.jwt = jwt.sign(user, "NaizakNaizakNaizakNaizak");
+                    user.jwt = jwt.sign(user, jwtSig);
                     return resolve({
                         id: user.id,
                         username: user.username,
@@ -79,8 +80,15 @@ module.exports = class UserService {
                 return reject(new Error('Missing Property ' + missingProperty));
             }
 
-            return UserDao.create(whiteListedUser).then((users)=> {
-                resolve(users);
+            return UserDao.create(whiteListedUser).then((user)=> {
+                user.jwt = jwt.sign(user, jwtSig);
+                return resolve({
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    name: user.name,
+                    jwt: user.jwt
+                });
             }).catch(function (error) {
                 reject(error);
             });
