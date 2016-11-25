@@ -1,5 +1,5 @@
-var RequestParameters = require('../util/request-parameters').RequestParameters;
-var CommentService = require('../services/comments');
+let RequestParameters = require('../util/request-parameters').RequestParameters;
+let CommentService = require('../services/comments');
 
 /**
  * Comment Controller (Middleware)

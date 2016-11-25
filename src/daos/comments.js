@@ -1,10 +1,10 @@
-var BaseDao = require('../daos/base');
+let BaseDao = require('../daos/base');
 
 module.exports = class CommentDao {
     static getBySentenceId(id){
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Comment WHERE idSentence = ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Comment WHERE idSentence = ?';
+            let queryOptions = [
                 //idSentence
                 id
             ];
@@ -21,8 +21,8 @@ module.exports = class CommentDao {
 
     static getAll(limit, skip) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Comment LIMIT ? OFFSET ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Comment LIMIT ? OFFSET ?';
+            let queryOptions = [
                 //limit
                 limit,
                 //offset
@@ -41,8 +41,8 @@ module.exports = class CommentDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Comment WHERE idComment = ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Comment WHERE idComment = ?';
+            let queryOptions = [
                 //idComment
                 id
             ];
@@ -59,8 +59,8 @@ module.exports = class CommentDao {
 
     static getByDeckId(id) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Comment WHERE idDeck = ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Comment WHERE idDeck = ?';
+            let queryOptions = [
                 //idComment
                 id
             ];
@@ -77,8 +77,8 @@ module.exports = class CommentDao {
 
     static create(comment) {
         return new Promise((resolve, reject) => {
-            var query = 'INSERT INTO Comment SET ?';
-            var queryOptions = comment;
+            let query = 'INSERT INTO Comment SET ?';
+            let queryOptions = comment;
 
             return BaseDao.dbConnection.query(query, queryOptions, function (err, results) {
                 if (err) {
@@ -92,8 +92,8 @@ module.exports = class CommentDao {
 
     static update(id, newComment) {
         return new Promise((resolve, reject) => {
-            var query = 'UPDATE Comment SET ? WHERE idComment = ?';
-            var queryOptions = [
+            let query = 'UPDATE Comment SET ? WHERE idComment = ?';
+            let queryOptions = [
                 // comment
                 newComment,
                 // idComment
@@ -113,8 +113,8 @@ module.exports = class CommentDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             CommentDao.getById(id).then((commentToBeDeleted) => {
-                var query = 'DELETE FROM Comment WHERE idComment = ?';
-                var queryOptions = [
+                let query = 'DELETE FROM Comment WHERE idComment = ?';
+                let queryOptions = [
                     //idComment
                     id
                 ];

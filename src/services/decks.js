@@ -1,6 +1,6 @@
-var DeckDao = require('../daos/decks');
-var SentenceDao = require('../daos/sentences');
-var CommentDao = require('../daos/comments');
+let DeckDao = require('../daos/decks');
+let SentenceDao = require('../daos/sentences');
+let CommentDao = require('../daos/comments');
 
 /**
  * Deck Service (Middleware)
@@ -68,8 +68,8 @@ module.exports = class DeckService {
 
     static create(deck) {
         return new Promise((resolve, reject) => {
-            var whiteListedDeck = this.createObjectFromWhiteList(deck, this.creatableProperties);
-            var missingProperty;
+            let whiteListedDeck = this.createObjectFromWhiteList(deck, this.creatableProperties);
+            let missingProperty;
             this.propertiesRequiredToCreate.some((property) => {
                 if (!whiteListedDeck[property]) {
                     return missingProperty = property;
@@ -101,8 +101,8 @@ module.exports = class DeckService {
                     return reject(new Error('User updating is not user that created the deck'));
                 }
 
-                var whiteListedDeck = this.createObjectFromWhiteList(newDeck, this.updatableProperties);
-                var missingProperty;
+                let whiteListedDeck = this.createObjectFromWhiteList(newDeck, this.updatableProperties);
+                let missingProperty;
                 this.propertiesRequiredToUpdate.some((property) => {
                     if (!whiteListedDeck[property]) {
                         return missingProperty = property;
@@ -151,8 +151,8 @@ module.exports = class DeckService {
     }
 
     static createObjectFromWhiteList(object, whiteList) {
-        var whiteListedObject = {};
-        for (var property in object) {
+        let whiteListedObject = {};
+        for (let property in object) {
             if (object.hasOwnProperty(property) && whiteList.indexOf(property) > -1) {
                 whiteListedObject[property] = object[property];
             }

@@ -1,7 +1,7 @@
-var DeckController = require('../controllers/decks');
+let DeckController = require('../controllers/decks');
 
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 //define deck routes
 router.get('/', DeckController.getAll);

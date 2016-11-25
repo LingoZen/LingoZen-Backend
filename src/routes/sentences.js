@@ -1,7 +1,7 @@
-var SentenceController = require('../controllers/sentences');
+let SentenceController = require('../controllers/sentences');
 
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 //define sentence routes
 router.get('/', SentenceController.search);

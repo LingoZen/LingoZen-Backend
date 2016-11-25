@@ -1,10 +1,10 @@
-var BaseDao = require('../daos/base');
+let BaseDao = require('../daos/base');
 
 module.exports = class DeckDao {
     static getAll(limit, skip) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Deck LIMIT ? OFFSET ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Deck LIMIT ? OFFSET ?';
+            let queryOptions = [
                 //limit
                 limit,
                 //offset
@@ -23,8 +23,8 @@ module.exports = class DeckDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Deck WHERE idDeck = ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Deck WHERE idDeck = ?';
+            let queryOptions = [
                 //idDeck
                 id
             ];
@@ -41,8 +41,8 @@ module.exports = class DeckDao {
 
     static create(deck) {
         return new Promise((resolve, reject) => {
-            var query = 'INSERT INTO Deck SET ?';
-            var queryOptions = deck;
+            let query = 'INSERT INTO Deck SET ?';
+            let queryOptions = deck;
 
             return BaseDao.dbConnection.query(query, queryOptions, function (err, results) {
                 if (err) {
@@ -56,8 +56,8 @@ module.exports = class DeckDao {
 
     static update(id, newDeck) {
         return new Promise((resolve, reject) => {
-            var query = 'UPDATE Deck SET ? WHERE idDeck = ?';
-            var queryOptions = [
+            let query = 'UPDATE Deck SET ? WHERE idDeck = ?';
+            let queryOptions = [
                 // deck
                 newDeck,
                 // idDeck
@@ -77,8 +77,8 @@ module.exports = class DeckDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             DeckDao.getById(id).then((deckToBeDeleted) => {
-                var query = 'DELETE FROM Deck WHERE idDeck = ?';
-                var queryOptions = [
+                let query = 'DELETE FROM Deck WHERE idDeck = ?';
+                let queryOptions = [
                     //idDeck
                     id
                 ];

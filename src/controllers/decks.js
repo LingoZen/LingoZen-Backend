@@ -1,5 +1,5 @@
-var RequestParameters = require('../util/request-parameters').RequestParameters;
-var DeckService = require('../services/decks');
+let RequestParameters = require('../util/request-parameters').RequestParameters;
+let DeckService = require('../services/decks');
 
 /**
  * Deck Controller (Middleware)

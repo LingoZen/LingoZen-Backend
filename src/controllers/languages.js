@@ -1,5 +1,5 @@
-var RequestParameters = require('../util/request-parameters').RequestParameters;
-var LanguageService = require('../services/languages');
+let RequestParameters = require('../util/request-parameters').RequestParameters;
+let LanguageService = require('../services/languages');
 
 /**
  * Language Controller (Middleware)

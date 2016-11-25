@@ -1,4 +1,4 @@
-var SentenceDao = require('../daos/sentences');
+let SentenceDao = require('../daos/sentences');
 
 /**
  * Sentence Service (Middleware)
@@ -47,8 +47,8 @@ module.exports = class SentenceService {
 
     static create(sentence) {
         return new Promise((resolve, reject) => {
-            var whiteListedSentence = this.createObjectFromWhiteList(sentence, this.creatableProperties);
-            var missingProperty;
+            let whiteListedSentence = this.createObjectFromWhiteList(sentence, this.creatableProperties);
+            let missingProperty;
             this.propertiesRequiredToCreate.some((property) => {
                 if (!whiteListedSentence[property]) {
                     return missingProperty = property;
@@ -80,8 +80,8 @@ module.exports = class SentenceService {
                     return reject(new Error('User updating is not user that created the sentence'));
                 }
 
-                var whiteListedSentence = this.createObjectFromWhiteList(newSentence, this.updatableProperties);
-                var missingProperty;
+                let whiteListedSentence = this.createObjectFromWhiteList(newSentence, this.updatableProperties);
+                let missingProperty;
                 this.propertiesRequiredToUpdate.some((property) => {
                     if (!whiteListedSentence[property]) {
                         return missingProperty = property;
@@ -130,8 +130,8 @@ module.exports = class SentenceService {
     }
 
     static createObjectFromWhiteList(object, whiteList) {
-        var whiteListedObject = {};
-        for (var property in object) {
+        let whiteListedObject = {};
+        for (let property in object) {
             if (object.hasOwnProperty(property) && whiteList.indexOf(property) > -1) {
                 whiteListedObject[property] = object[property];
             }

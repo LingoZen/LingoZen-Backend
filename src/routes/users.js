@@ -1,7 +1,7 @@
-var UserController = require('../controllers/users');
+let UserController = require('../controllers/users');
 
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 
 //define user routes

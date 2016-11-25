@@ -1,4 +1,4 @@
-var LanguageDao = require('../daos/languages');
+let LanguageDao = require('../daos/languages');
 
 /**
  * Language Service (Middleware)
@@ -44,8 +44,8 @@ module.exports = class LanguageService {
 
     static create(language) {
         return new Promise((resolve, reject) => {
-            var whiteListedLanguage = this.createObjectFromWhiteList(language, this.creatableProperties);
-            var missingProperty;
+            let whiteListedLanguage = this.createObjectFromWhiteList(language, this.creatableProperties);
+            let missingProperty;
             this.propertiesRequiredToCreate.some((property) => {
                 if(!whiteListedLanguage[property]){
                     return missingProperty = property;
@@ -72,8 +72,8 @@ module.exports = class LanguageService {
                     return reject(new Error('Language not found'));
                 }
 
-                var whiteListedLanguage = this.createObjectFromWhiteList(newLanguage, this.updatableProperties);
-                var missingProperty;
+                let whiteListedLanguage = this.createObjectFromWhiteList(newLanguage, this.updatableProperties);
+                let missingProperty;
                 this.propertiesRequiredToUpdate.some((property) => {
                     if(!whiteListedLanguage[property]){
                         return missingProperty = property;
@@ -117,8 +117,8 @@ module.exports = class LanguageService {
     }
 
     static createObjectFromWhiteList(object, whiteList) {
-        var whiteListedObject = {};
-        for (var property in object) {
+        let whiteListedObject = {};
+        for (let property in object) {
             if (object.hasOwnProperty(property) && whiteList.indexOf(property) > -1) {
                 whiteListedObject[property] = object[property];
             }

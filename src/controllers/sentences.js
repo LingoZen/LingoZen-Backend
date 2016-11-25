@@ -1,5 +1,5 @@
-var RequestParameters = require('../util/request-parameters').RequestParameters;
-var SentenceService = require('../services/sentences');
+let RequestParameters = require('../util/request-parameters').RequestParameters;
+let SentenceService = require('../services/sentences');
 
 /**
  * Sentence Controller (Middleware)

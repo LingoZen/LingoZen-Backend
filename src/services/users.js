@@ -1,6 +1,6 @@
-var UserDao = require('../daos/users');
-var jwt = require('jsonwebtoken');
-var jwtSig = "NaizakNaizakNaizakNaizak";
+let UserDao = require('../daos/users');
+let jwt = require('jsonwebtoken');
+let jwtSig = "aDK8GpfJcpE62ECazxs44q8hxoX2o79VHb66J7c9MKEkW7ZTE8lHHvXOK7MS";
 
 /**
  * User Service (Middleware)
@@ -68,8 +68,8 @@ module.exports = class UserService {
 
     static create(user) {
         return new Promise((resolve, reject) => {
-            var whiteListedUser = this.createObjectFromWhiteList(user, this.creatableProperties);
-            var missingProperty;
+            let whiteListedUser = this.createObjectFromWhiteList(user, this.creatableProperties);
+            let missingProperty;
             this.propertiesRequiredToCreate.some((property) => {
                 if (!whiteListedUser[property]) {
                     return missingProperty = property;
@@ -103,8 +103,8 @@ module.exports = class UserService {
                     return reject(new Error('User not found'));
                 }
 
-                var whiteListedUser = this.createObjectFromWhiteList(newUser, this.updatableProperties);
-                var missingProperty;
+                let whiteListedUser = this.createObjectFromWhiteList(newUser, this.updatableProperties);
+                let missingProperty;
                 this.propertiesRequiredToUpdate.some((property) => {
                     if (!whiteListedUser[property]) {
                         return missingProperty = property;
@@ -148,8 +148,8 @@ module.exports = class UserService {
     }
 
     static createObjectFromWhiteList(object, whiteList) {
-        var whiteListedObject = {};
-        for (var property in object) {
+        let whiteListedObject = {};
+        for (let property in object) {
             if (object.hasOwnProperty(property) && whiteList.indexOf(property) > -1) {
                 whiteListedObject[property] = object[property];
             }

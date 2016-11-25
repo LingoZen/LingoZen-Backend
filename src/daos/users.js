@@ -1,12 +1,12 @@
-var BaseDao = require('../daos/base');
-var pSalt = "trumpWon;HOW!?;fuckYouMeAndEveryoneElseAround;FuckThisShitIGiveUp";
-var bcrypt = require('bcrypt-nodejs');
+let BaseDao = require('../daos/base');
+let pSalt = "IYxzTM5UFNkBi3WUfpasT5by1rmcRB1FuVVHIh76XWX1XgxE8XeyRkLvTyHQ";
+let bcrypt = require('bcrypt-nodejs');
 
 module.exports = class UserDao {
     static getAll(limit, skip) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM User LIMIT ? OFFSET ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM User LIMIT ? OFFSET ?';
+            let queryOptions = [
                 //limit
                 limit,
                 //offset
@@ -25,8 +25,8 @@ module.exports = class UserDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM User WHERE idUser = ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM User WHERE idUser = ?';
+            let queryOptions = [
                 //idUser
                 id
             ];
@@ -44,8 +44,8 @@ module.exports = class UserDao {
     static getByUsernameAndPassword(username, password) {
         return new Promise((resolve, reject) => {
             password += pSalt;
-            var query = 'SELECT * FROM User WHERE `username` = ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM User WHERE `username` = ?';
+            let queryOptions = [
                 //username
                 username
             ];
@@ -82,8 +82,8 @@ module.exports = class UserDao {
                 bcrypt.hash(user.password, salt, null, (err, hashPassword) => {
                     user.password = hashPassword;
 
-                    var query = 'INSERT INTO User SET ?';
-                    var queryOptions = user;
+                    let query = 'INSERT INTO User SET ?';
+                    let queryOptions = user;
 
                     return BaseDao.dbConnection.query(query, queryOptions, (err, results) => {
                         if (err) {
@@ -99,8 +99,8 @@ module.exports = class UserDao {
 
     static update(id, newUser) {
         return new Promise((resolve, reject) => {
-            var query = 'UPDATE User SET ? WHERE idUser = ?';
-            var queryOptions = [
+            let query = 'UPDATE User SET ? WHERE idUser = ?';
+            let queryOptions = [
                 // user
                 newUser,
                 // idUser
@@ -120,8 +120,8 @@ module.exports = class UserDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             UserDao.getById(id).then((userToBeDeleted) => {
-                var query = 'DELETE FROM User WHERE idUser = ?';
-                var queryOptions = [
+                let query = 'DELETE FROM User WHERE idUser = ?';
+                let queryOptions = [
                     //idUser
                     id
                 ];

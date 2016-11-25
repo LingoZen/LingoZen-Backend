@@ -1,4 +1,4 @@
-var CommentDao = require('../daos/comments');
+let CommentDao = require('../daos/comments');
 
 /**
  * Comment Service (Middleware)
@@ -45,8 +45,8 @@ module.exports = class CommentService {
 
     static create(comment) {
         return new Promise((resolve, reject) => {
-            var whiteListedComment = this.createObjectFromWhiteList(comment, this.creatableProperties);
-            var missingProperty;
+            let whiteListedComment = this.createObjectFromWhiteList(comment, this.creatableProperties);
+            let missingProperty;
             this.propertiesRequiredToCreate.some((property) => {
                 if(!whiteListedComment[property]){
                     return missingProperty = property;
@@ -78,8 +78,8 @@ module.exports = class CommentService {
                     return reject(new Error('User updating is not user that created the comment'));
                 }
 
-                var whiteListedComment = this.createObjectFromWhiteList(newComment, this.updatableProperties);
-                var missingProperty;
+                let whiteListedComment = this.createObjectFromWhiteList(newComment, this.updatableProperties);
+                let missingProperty;
                 this.propertiesRequiredToUpdate.some((property) => {
                     if(!whiteListedComment[property]){
                         return missingProperty = property;
@@ -128,8 +128,8 @@ module.exports = class CommentService {
     }
 
     static createObjectFromWhiteList(object, whiteList) {
-        var whiteListedObject = {};
-        for (var property in object) {
+        let whiteListedObject = {};
+        for (let property in object) {
             if (object.hasOwnProperty(property) && whiteList.indexOf(property) > -1) {
                 whiteListedObject[property] = object[property];
             }

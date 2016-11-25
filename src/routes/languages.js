@@ -1,7 +1,7 @@
-var LanguageController = require('../controllers/languages');
+let LanguageController = require('../controllers/languages');
 
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 
 //define language routes

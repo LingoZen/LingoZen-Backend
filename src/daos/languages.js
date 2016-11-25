@@ -1,10 +1,10 @@
-var BaseDao = require('../daos/base');
+let BaseDao = require('../daos/base');
 
 module.exports = class LanguageDao {
     static getAll(limit, skip) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Language LIMIT ? OFFSET ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Language LIMIT ? OFFSET ?';
+            let queryOptions = [
                 //limit
                 limit,
                 //offset
@@ -23,8 +23,8 @@ module.exports = class LanguageDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Language WHERE idLanguage = ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Language WHERE idLanguage = ?';
+            let queryOptions = [
                 //idLanguage
                 id
             ];
@@ -41,8 +41,8 @@ module.exports = class LanguageDao {
 
     static create(language) {
         return new Promise((resolve, reject) => {
-            var query = 'INSERT INTO Language SET ?';
-            var queryOptions = language;
+            let query = 'INSERT INTO Language SET ?';
+            let queryOptions = language;
 
             return BaseDao.dbConnection.query(query, queryOptions, function (err, results) {
                 if (err) {
@@ -56,8 +56,8 @@ module.exports = class LanguageDao {
 
     static update(id, newLanguage) {
         return new Promise((resolve, reject) => {
-            var query = 'UPDATE Language SET ? WHERE idLanguage = ?';
-            var queryOptions = [
+            let query = 'UPDATE Language SET ? WHERE idLanguage = ?';
+            let queryOptions = [
                 // language
                 newLanguage,
                 // idLanguage
@@ -77,8 +77,8 @@ module.exports = class LanguageDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             LanguageDao.getById(id).then((languageToBeDeleted) => {
-                var query = 'DELETE FROM Language WHERE idLanguage = ?';
-                var queryOptions = [
+                let query = 'DELETE FROM Language WHERE idLanguage = ?';
+                let queryOptions = [
                     //idLanguage
                     id
                 ];

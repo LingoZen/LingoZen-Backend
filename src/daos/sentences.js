@@ -1,13 +1,13 @@
-var BaseDao = require('../daos/base');
-var CommentDao = require('../daos/comments');
-var Bodybuilder = require('bodybuilder');
-var async = require('async');
+let BaseDao = require('../daos/base');
+let CommentDao = require('../daos/comments');
+let Bodybuilder = require('bodybuilder');
+let async = require('async');
 
 module.exports = class SentenceDao {
     static search(word) {
         return new Promise((resolve, reject) => {
-            var sentences = {};
-            var query = new Bodybuilder()
+            let sentences = {};
+            let query = new Bodybuilder()
                 .query('match', 'text', word)
                 .build('v2');
 
@@ -19,7 +19,7 @@ module.exports = class SentenceDao {
                     return reject(error);
                 }
 
-                var hits = response.hits && response.hits.hits;
+                let hits = response.hits && response.hits.hits;
                 if (hits && hits.length) {
                     hits.forEach((hit) => {
                         if (!sentences[hit._source.language]) {
@@ -37,14 +37,14 @@ module.exports = class SentenceDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            var translationOfQuery = new Bodybuilder()
+            let translationOfQuery = new Bodybuilder()
                 .query('match', 'translationOf', id)
                 .build('v2');
 
             let sentence = {};
             let translations = [];
-            var translationsWithComments = [];
-            var index = 'lingozen-' + id.split('_')[0];
+            let translationsWithComments = [];
+            let index = 'lingozen-' + id.split('_')[0];
 
             async.series([
                 function getSentenceFromEs(cb) {
@@ -119,8 +119,8 @@ module.exports = class SentenceDao {
 
     static getAll(limit, skip) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Sentence LIMIT ? OFFSET ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Sentence LIMIT ? OFFSET ?';
+            let queryOptions = [
                 //limit
                 limit,
                 //offset
@@ -139,8 +139,8 @@ module.exports = class SentenceDao {
 
     static getByDeckId(id) {
         return new Promise((resolve, reject) => {
-            var query = 'SELECT * FROM Sentence WHERE idDeck = ?';
-            var queryOptions = [
+            let query = 'SELECT * FROM Sentence WHERE idDeck = ?';
+            let queryOptions = [
                 //idSentence
                 id
             ];
@@ -157,8 +157,8 @@ module.exports = class SentenceDao {
 
     static create(sentence) {
         return new Promise((resolve, reject) => {
-            var query = 'INSERT INTO Sentence SET ?';
-            var queryOptions = sentence;
+            let query = 'INSERT INTO Sentence SET ?';
+            let queryOptions = sentence;
 
             return BaseDao.dbConnection.query(query, queryOptions, function (err, results) {
                 if (err) {
@@ -172,8 +172,8 @@ module.exports = class SentenceDao {
 
     static update(id, newSentence) {
         return new Promise((resolve, reject) => {
-            var query = 'UPDATE Sentence SET ? WHERE idSentence = ?';
-            var queryOptions = [
+            let query = 'UPDATE Sentence SET ? WHERE idSentence = ?';
+            let queryOptions = [
                 // sentence
                 newSentence,
                 // idSentence
@@ -193,8 +193,8 @@ module.exports = class SentenceDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             SentenceDao.getById(id).then((sentenceToBeDeleted) => {
-                var query = 'DELETE FROM Sentence WHERE idSentence = ?';
-                var queryOptions = [
+                let query = 'DELETE FROM Sentence WHERE idSentence = ?';
+                let queryOptions = [
                     //idSentence
                     id
                 ];

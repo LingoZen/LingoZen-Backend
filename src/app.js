@@ -1,44 +1,44 @@
 /**
  * Libs
  */
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var cors = require("cors");
-var mysql = require('mysql');
-var elasticsearch = require('elasticsearch');
+let express = require('express');
+let path = require('path');
+let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let cors = require("cors");
+let mysql = require('mysql');
+let elasticsearch = require('elasticsearch');
 
 /**
  * Routes
  */
-var commentRoutes = require('./routes/comments');
-var deckRoutes = require('./routes/decks');
-var languageRoutes = require('./routes/languages');
-var sentenceRoutes = require('./routes/sentences');
-var userRoutes = require('./routes/users');
+let commentRoutes = require('./routes/comments');
+let deckRoutes = require('./routes/decks');
+let languageRoutes = require('./routes/languages');
+let sentenceRoutes = require('./routes/sentences');
+let userRoutes = require('./routes/users');
 
 /**
  * Error Handler
  */
-var ErrorHandlerController = require("./controllers/error-handler");
-var errorHandlerController = new ErrorHandlerController();
+let ErrorHandlerController = require("./controllers/error-handler");
+let errorHandlerController = new ErrorHandlerController();
 
 /**
  * App Initialization
  */
-var app = express();
+let app = express();
 
 /**
  * DAO Initialization
  */
-var BaseDao = require('./daos/base');
+let BaseDao = require('./daos/base');
 
 /**
  * Start MySql Db
  */
-var dbConnectionSettings;
+let dbConnectionSettings;
 switch (app.get('env')) {
     case 'production':
         dbConnectionSettings = {
@@ -72,7 +72,7 @@ BaseDao.dbConnection.connect((err) => {
 /**
  * Start ES
  */
-var esConnectionSettings;
+let esConnectionSettings;
 switch (app.get('env')) {
     case 'production':
         esConnectionSettings = {

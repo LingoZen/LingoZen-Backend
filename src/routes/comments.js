@@ -1,7 +1,7 @@
-var CommentController = require('../controllers/comments');
+let CommentController = require('../controllers/comments');
 
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 //define comment routes
 router.get('/', CommentController.getAll);

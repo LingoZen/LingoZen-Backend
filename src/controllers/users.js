@@ -1,5 +1,5 @@
-var RequestParameters = require('../util/request-parameters').RequestParameters;
-var UserService = require('../services/users');
+let RequestParameters = require('../util/request-parameters').RequestParameters;
+let UserService = require('../services/users');
 
 /**
  * User Controller (Middleware)
