@@ -1,15 +1,20 @@
 let BaseDao = require('../daos/base');
 let CommentDao = require('../daos/comments');
-let Bodybuilder = require('bodybuilder');
 let async = require('async');
 
 module.exports = class SentenceDao {
     static search(word) {
         return new Promise((resolve, reject) => {
             let sentences = {};
-            let query = new Bodybuilder()
-                .query('match', 'text', word)
-                .build('v2');
+            let query = JSON.stringify({
+                query: {
+                    query_string: {
+                        default_field: 'text',
+                        query: word,
+                        analyze_wildcard: true
+                    }
+                }
+            });
 
             BaseDao.esClient.search({
                 index: '_all',
@@ -37,9 +42,13 @@ module.exports = class SentenceDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            let translationOfQuery = new Bodybuilder()
-                .query('match', 'translationOf', id)
-                .build('v2');
+            let translationOfQuery = JSON.stringify({
+                query: {
+                    match: {
+                        translationOf: id
+                    }
+                }
+            });
 
             let sentence = {};
             let translations = [];
@@ -71,7 +80,7 @@ module.exports = class SentenceDao {
                             return cb(err);
                         }
 
-                        translations = responses.hits.hits.map((translations)=> {
+                        translations = responses.hits.hits.map((translations) => {
                             return translations._source;
                         }).filter((a) => {
                             return a;
@@ -81,20 +90,20 @@ module.exports = class SentenceDao {
                     });
                 },
                 function getCommentsForSentences(cb) {
-                    CommentDao.getBySentenceId(id).then((comments)=> {
+                    CommentDao.getBySentenceId(id).then((comments) => {
                         sentence.comments = comments;
                         cb();
-                    }).catch((err)=> {
+                    }).catch((err) => {
                         cb(err);
                     });
                 },
                 function getCommentsForTranslations(cb) {
                     async.each(translations, (translation) => {
-                        CommentDao.getBySentenceId((translation.id)).then((comments)=> {
+                        CommentDao.getBySentenceId((translation.id)).then((comments) => {
                             translation.comments = comments;
                             translationsWithComments.push(JSON.parse(JSON.stringify(translation)));
                             cb();
-                        }).catch((err)=> {
+                        }).catch((err) => {
                             cb(err);
                         });
                     }, (comments, err) => {
@@ -165,7 +174,7 @@ module.exports = class SentenceDao {
                     return reject(err);
                 }
 
-                return SentenceDao.getById(results.insertId).then(newSentence=>resolve(newSentence)).catch(err => reject(err));
+                return SentenceDao.getById(results.insertId).then(newSentence => resolve(newSentence)).catch(err => reject(err));
             });
         });
     }
@@ -185,7 +194,7 @@ module.exports = class SentenceDao {
                     return reject(err);
                 }
 
-                return SentenceDao.getById(id).then(updatedSentence=>resolve(updatedSentence)).catch(err => reject(err));
+                return SentenceDao.getById(id).then(updatedSentence => resolve(updatedSentence)).catch(err => reject(err));
             });
         });
     }

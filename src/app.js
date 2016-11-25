@@ -76,13 +76,15 @@ let esConnectionSettings;
 switch (app.get('env')) {
     case 'production':
         esConnectionSettings = {
-            host: 'search-lz-es-asjzii5ehwnhh3fmzpihgvcdrq.us-east-1.es.amazonaws.com'
+            host: 'search-lz-es-asjzii5ehwnhh3fmzpihgvcdrq.us-east-1.es.amazonaws.com',
+            log: 'trace'
         };
         break;
     case 'development':
     default:
         esConnectionSettings = {
-            host: 'localhost:9200'
+            host: 'localhost:9200',
+            log: 'trace'
         };
         break;
 }

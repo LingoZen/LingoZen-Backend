@@ -11,7 +11,7 @@ module.exports = class SentenceController {
     static search(req, res, next) {
         let request = new RequestParameters(req);
 
-        SentenceService.search(request.search).then((sentences) => {
+        SentenceService.search(request.search || '*').then((sentences) => {
             res.send(sentences);
         }).catch((err) => {
             next(err);
