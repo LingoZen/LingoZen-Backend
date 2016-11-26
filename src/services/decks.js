@@ -27,7 +27,7 @@ module.exports = class DeckService {
             //get all decks
             DeckDao.getAll(limit, skip).then((decks) => {
                 resolve(decks);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -38,7 +38,7 @@ module.exports = class DeckService {
             //get deck
             DeckDao.getById(id, limit, skip).then((deck) => {
                 resolve(deck);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -49,7 +49,7 @@ module.exports = class DeckService {
             //get deck
             CommentDao.getByDeckId(id, limit, skip).then((comment) => {
                 resolve(comment);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -60,7 +60,7 @@ module.exports = class DeckService {
             //get deck
             SentenceDao.getByDeckId(id, limit, skip).then((sentence) => {
                 resolve(sentence);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -82,7 +82,7 @@ module.exports = class DeckService {
 
             return DeckDao.create(whiteListedDeck).then((decks)=> {
                 resolve(decks);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -121,7 +121,7 @@ module.exports = class DeckService {
                 return DeckDao.update(id, whiteListedDeck);
             }).then((decks) => {
                 resolve(decks);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -144,7 +144,7 @@ module.exports = class DeckService {
                 return DeckDao.remove(id);
             }).then((deck) => {
                 resolve(deck);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });

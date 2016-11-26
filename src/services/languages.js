@@ -25,7 +25,7 @@ module.exports = class LanguageService {
             //get all languages
             LanguageDao.getAll(limit, skip).then((languages) => {
                 resolve(languages);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -36,7 +36,7 @@ module.exports = class LanguageService {
             //get language
             LanguageDao.getById(id, limit, skip).then((language) => {
                 resolve(language);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -58,7 +58,7 @@ module.exports = class LanguageService {
 
             return LanguageDao.create(whiteListedLanguage).then((languages)=> {
                 resolve(languages);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -92,7 +92,7 @@ module.exports = class LanguageService {
                 return LanguageDao.update(id, whiteListedLanguage);
             }).then((languages) => {
                 resolve(languages);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -110,7 +110,7 @@ module.exports = class LanguageService {
                 return LanguageDao.remove(id);
             }).then((language) => {
                 resolve(language);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });

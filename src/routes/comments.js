@@ -7,7 +7,7 @@ let router = express.Router();
 router.get('/', CommentController.getAll);
 router.get('/:id', CommentController.getById);
 
-router.post('/', CommentController.create);
+router.post('/sentence/:id', CommentController.create);
 
 router.put('/:id', CommentController.update);
 

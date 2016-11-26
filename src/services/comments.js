@@ -26,7 +26,7 @@ module.exports = class CommentService {
             //get all comments
             CommentDao.getAll(limit, skip).then((comments) => {
                 resolve(comments);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -37,7 +37,7 @@ module.exports = class CommentService {
             //get comment
             CommentDao.getById(id, limit, skip).then((comment) => {
                 resolve(comment);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -59,7 +59,7 @@ module.exports = class CommentService {
 
             return CommentDao.create(whiteListedComment).then((comments)=> {
                 resolve(comments);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -98,7 +98,7 @@ module.exports = class CommentService {
                 return CommentDao.update(id, whiteListedComment);
             }).then((comments) => {
                 resolve(comments);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -121,7 +121,7 @@ module.exports = class CommentService {
                 return CommentDao.remove(id);
             }).then((comment) => {
                 resolve(comment);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });

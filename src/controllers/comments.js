@@ -30,6 +30,7 @@ module.exports = class CommentController {
 
     static create(req, res, next) {
         let request = new RequestParameters(req);
+        request.body.idSentence = request.id;
 
         CommentService.create(request.body).then((comment) => {
             return res.send(comment);

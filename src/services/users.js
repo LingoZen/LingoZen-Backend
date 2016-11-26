@@ -28,7 +28,7 @@ module.exports = class UserService {
             //get all users
             UserDao.getAll(limit, skip).then((users) => {
                 resolve(users);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -89,7 +89,7 @@ module.exports = class UserService {
                     name: user.name,
                     jwt: user.jwt
                 });
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -123,7 +123,7 @@ module.exports = class UserService {
                 return UserDao.update(id, whiteListedUser);
             }).then((users) => {
                 resolve(users);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -141,7 +141,7 @@ module.exports = class UserService {
                 return UserDao.remove(id);
             }).then((user) => {
                 resolve(user);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });

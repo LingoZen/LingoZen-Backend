@@ -28,7 +28,7 @@ module.exports = class SentenceService {
             //get all sentences
             SentenceDao.search(word).then((sentences) => {
                 resolve(sentences);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -39,7 +39,7 @@ module.exports = class SentenceService {
             //get sentence
             SentenceDao.getById(id).then((sentence) => {
                 resolve(sentence);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -61,7 +61,7 @@ module.exports = class SentenceService {
 
             return SentenceDao.create(whiteListedSentence).then((sentences)=> {
                 resolve(sentences);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -100,7 +100,7 @@ module.exports = class SentenceService {
                 return SentenceDao.update(id, whiteListedSentence);
             }).then((sentences) => {
                 resolve(sentences);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -123,7 +123,7 @@ module.exports = class SentenceService {
                 return SentenceDao.remove(id);
             }).then((sentence) => {
                 resolve(sentence);
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error);
             });
         });
