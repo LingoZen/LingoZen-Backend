@@ -1,3 +1,5 @@
+let jwt = require('jsonwebtoken');
+
 /**
  * Request Parameters
  *
@@ -26,8 +28,12 @@ export class RequestParameters {
         //body
         this._body = request.body || {};
 
-        //user
-        this._user = request.user || {};
+        if (request.headers.authorization && request.headers.authorization.indexOf('Bearer ') > -1) {
+            let idUser = jwt.decode(request.headers.authorization).idUser;
+            if (idUser) {
+                this.idUser = idUser;
+            }
+        }
     }
 
     get user() {
