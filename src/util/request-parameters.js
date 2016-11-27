@@ -21,6 +21,7 @@ export class RequestParameters {
         this._query = request.query || this._defaultQuery;
         this._search = this._query.search;
         this._languages = this._query.languages || this._defaultLanguages;
+        this._language = this._query.language;
         this._limit = parseInt(this._query.limit) || this._defaultLimit;
         this._page = parseInt(this._query.page) || this._defaultPage;
         this._setSkip();
@@ -29,7 +30,7 @@ export class RequestParameters {
         this._body = request.body || {};
 
         if (request.headers.authorization && request.headers.authorization.indexOf('Bearer ') > -1) {
-            let idUser = jwt.decode(request.headers.authorization).idUser;
+            let idUser = jwt.decode(request.headers.authorization.split('Bearer ')[1]).idUser;
             if (idUser) {
                 this.idUser = idUser;
             }
@@ -62,6 +63,10 @@ export class RequestParameters {
 
     get languages() {
         return this._languages;
+    }
+
+    get language() {
+        return this._language;
     }
 
     get limit() {
@@ -166,6 +171,18 @@ export class RequestParameters {
         }
 
         return this._languages = [];
+    }
+
+    set language(language) {
+        if (!language) {
+            return this._language = null;
+        }
+
+        if (Array.isArray(language)) {
+            return this._language = language[0];
+        }
+
+        return this._language = null;
     }
 
     set limit(limit) {

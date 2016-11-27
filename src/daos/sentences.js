@@ -1,6 +1,7 @@
 let BaseDao = require('../daos/base');
 let CommentDao = require('../daos/comments');
 let async = require('async');
+let uuid = require('node-uuid');
 
 module.exports = class SentenceDao {
     static search(word) {
@@ -126,98 +127,44 @@ module.exports = class SentenceDao {
         });
     }
 
-    static getAll(limit, skip) {
-        return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM Sentence LIMIT ? OFFSET ?';
-            let queryOptions = [
-                //limit
-                limit,
-                //offset
-                skip
-            ];
-
-            return BaseDao.dbConnection.query(query, queryOptions, function (err, results) {
-                if (err) {
-                    return reject(err)
-                }
-
-                return resolve(results);
-            });
-        });
-    }
-
     static getByDeckId(id) {
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM Sentence WHERE idDeck = ?';
-            let queryOptions = [
-                //idSentence
-                id
-            ];
-
-            return BaseDao.dbConnection.query(query, queryOptions, function (err, results) {
-                if (err) {
-                    return reject(err)
-                }
-
-                return resolve(results);
-            });
+            reject('NOT DONE');
         });
     }
 
     static create(sentence) {
         return new Promise((resolve, reject) => {
-            let query = 'INSERT INTO Sentence SET ?';
-            let queryOptions = sentence;
+            if(!sentence.language){
+                return reject('sentence.language not defined');
+            }
 
-            return BaseDao.dbConnection.query(query, queryOptions, function (err, results) {
-                if (err) {
-                    return reject(err);
+            let index = 'lingozen-' + sentence.language;
+            let id = `${sentence.language}_${uuid.v4()}`;
+            BaseDao.esClient.create({
+                index: index,
+                type: 'sentence',
+                id: id,
+                body: sentence
+            }, (error, response) => {
+                if (error) {
+                    return reject(error);
                 }
 
-                return SentenceDao.getById(results.insertId).then(newSentence => resolve(newSentence)).catch(err => reject(err));
+                resolve(response._source);
             });
         });
     }
 
     static update(id, newSentence) {
         return new Promise((resolve, reject) => {
-            let query = 'UPDATE Sentence SET ? WHERE idSentence = ?';
-            let queryOptions = [
-                // sentence
-                newSentence,
-                // idSentence
-                id
-            ];
-
-            return BaseDao.dbConnection.query(query, queryOptions, function (err) {
-                if (err) {
-                    return reject(err);
-                }
-
-                return SentenceDao.getById(id).then(updatedSentence => resolve(updatedSentence)).catch(err => reject(err));
-            });
+            reject('NOT DONE');
         });
     }
 
     static remove(id) {
         return new Promise((resolve, reject) => {
-            SentenceDao.getById(id).then((sentenceToBeDeleted) => {
-                let query = 'DELETE FROM Sentence WHERE idSentence = ?';
-                let queryOptions = [
-                    //idSentence
-                    id
-                ];
-
-                return BaseDao.dbConnection.query(query, queryOptions, function (err) {
-                    if (err) {
-                        return reject(err);
-                    }
-
-                    return resolve(sentenceToBeDeleted);
-                });
-            }).catch((err) => {
-                reject(err);
-            });
+            reject('NOT DONE');
         });
     }
 };

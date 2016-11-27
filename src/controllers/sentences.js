@@ -28,33 +28,28 @@ module.exports = class SentenceController {
         });
     }
 
-    // static create(req, res, next) {
-    //     let request = new RequestParameters(req);
-    //
-    //     SentenceService.create(request.body).then((sentence) => {
-    //         return res.send(sentence);
-    //     }).catch((err) => {
-    //         return next(err);
-    //     });
-    // }
-    //
-    // static update(req, res, next) {
-    //     let request = new RequestParameters(req);
-    //
-    //     SentenceService.update(request.id, request.body, request.user.id).then((sentence) => {
-    //         return res.send(sentence);
-    //     }).catch((err) => {
-    //         return next(err);
-    //     });
-    // }
-    //
-    // static remove(req, res, next) {
-    //     let request = new RequestParameters(req);
-    //
-    //     SentenceService.remove(request.id, request.user.id).then((sentence) => {
-    //         return res.send(sentence);
-    //     }).catch((err) => {
-    //         return next(err);
-    //     });
-    // }
+    static addTranslation(req, res, next) {
+        let request = new RequestParameters(req);
+        request.body.idUser = request.idUser;
+        request.body.translationOf = request.id;
+        request.body.language = request.language;
+
+        SentenceService.create(request.body).then((sentence) => {
+            return res.send(sentence);
+        }).catch((err) => {
+            return next(err);
+        });
+    }
+
+    static create(req, res, next) {
+        let request = new RequestParameters(req);
+        request.body.idUser = request.idUser;
+        request.body.language = request.language;
+
+        SentenceService.create(request.body).then((sentence) => {
+            return res.send(sentence);
+        }).catch((err) => {
+            return next(err);
+        });
+    }
 };
