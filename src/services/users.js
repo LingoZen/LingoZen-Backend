@@ -80,7 +80,7 @@ module.exports = class UserService {
                 return reject(new Error('Missing Property ' + missingProperty));
             }
 
-            return UserDao.create(whiteListedUser).then((user)=> {
+            return UserDao.create(whiteListedUser).then((user) => {
                 user.jwt = jwt.sign(user, jwtSig);
                 return resolve({
                     id: user.id,
@@ -95,10 +95,14 @@ module.exports = class UserService {
         });
     }
 
-    static update(id, newUser, userId) {
+    static update(userId, newUser, idOfUserRequestingTheUpdate) {
         return new Promise((resolve, reject) => {
+            if (idOfUserRequestingTheUpdate !== userId) {
+                return reject("You cannot update someone else's user profile");
+            }
+
             // get user
-            UserDao.getById(id).then((user) => {
+            UserDao.getById(userId).then((user) => {
                 if (!user) {
                     return reject(new Error('User not found'));
                 }
@@ -119,8 +123,12 @@ module.exports = class UserService {
                     return reject(new Error("Updating with a empty object"));
                 }
 
+                if (whiteListedUser.password && whiteListedUser.password === '') {
+                    delete whiteListedUser.password;
+                }
+
                 //update property
-                return UserDao.update(id, whiteListedUser);
+                return UserDao.update(userId, whiteListedUser);
             }).then((users) => {
                 resolve(users);
             }).catch((error) => {

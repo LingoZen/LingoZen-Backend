@@ -32,7 +32,6 @@ module.exports = class SentenceController {
         let request = new RequestParameters(req);
         request.body.idUser = request.idUser;
         request.body.translationOf = request.id;
-        request.body.language = request.language;
 
         SentenceService.create(request.body).then((sentence) => {
             return res.send(sentence);
@@ -44,7 +43,6 @@ module.exports = class SentenceController {
     static create(req, res, next) {
         let request = new RequestParameters(req);
         request.body.idUser = request.idUser;
-        request.body.language = request.language;
 
         SentenceService.create(request.body).then((sentence) => {
             return res.send(sentence);

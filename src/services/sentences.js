@@ -45,9 +45,20 @@ module.exports = class SentenceService {
         });
     }
 
-    static create(translation) {
+    static create(sentence) {
         return new Promise((resolve, reject) => {
-            SentenceDao.create(translation).then((translation) => {
+            if (!sentence.text) {
+                return reject('sentence.text is undefined');
+            }
+
+            if (!sentence.language) {
+                return reject('sentence.language isnt defined')
+            }
+
+            sentence.addedDate = new Date();
+            sentence.lastModifiedDate = new Date();
+
+            SentenceDao.create(sentence).then((translation) => {
                 resolve(translation);
             }).catch((error) => {
                 reject(error);

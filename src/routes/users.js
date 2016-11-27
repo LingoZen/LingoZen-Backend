@@ -12,6 +12,7 @@ router.post('/login', UserController.login);
 
 router.post('/', UserController.create);
 
+router.put('/me', UserController.updateJwtUser);
 router.put('/:id', UserController.update);
 
 router.delete('/:id', UserController.remove);

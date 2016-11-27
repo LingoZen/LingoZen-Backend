@@ -75,44 +75,48 @@ module.exports = class UserDao {
 
     static create(user) {
         return new Promise((resolve, reject) => {
-            bcrypt.genSalt(10, (err, salt) => {
-                if (err) return reject(err);
+            this.encryptPassword(user.password).then(function (hashPassword) {
+                user.password = hashPassword;
 
-                user.password += pSalt;
-                bcrypt.hash(user.password, salt, null, (err, hashPassword) => {
-                    user.password = hashPassword;
+                let query = 'INSERT INTO User SET ?';
 
-                    let query = 'INSERT INTO User SET ?';
-                    let queryOptions = user;
+                return BaseDao.dbConnection.query(query, user, (err, results) => {
+                    if (err) {
+                        return reject(err);
+                    }
 
-                    return BaseDao.dbConnection.query(query, queryOptions, (err, results) => {
-                        if (err) {
-                            return reject(err);
-                        }
-
-                        return UserDao.getById(results.insertId).then(newUser=>resolve(newUser)).catch(err => reject(err));
-                    });
+                    return UserDao.getById(results.insertId).then(newUser => resolve(newUser)).catch(err => reject(err));
                 });
+            }).catch(function (err) {
+                return reject(err);
             });
         });
     }
 
     static update(id, newUser) {
         return new Promise((resolve, reject) => {
-            let query = 'UPDATE User SET ? WHERE idUser = ?';
-            let queryOptions = [
-                // user
-                newUser,
-                // idUser
-                id
-            ];
-
-            return BaseDao.dbConnection.query(query, queryOptions, function (err) {
-                if (err) {
-                    return reject(err);
+            this.encryptPassword(newUser.password).then(function (hashPassword) {
+                if (newUser.password) {
+                    newUser.password = hashPassword;
                 }
 
-                return UserDao.getById(id).then(updatedUser=>resolve(updatedUser)).catch(err => reject(err));
+                let query = 'UPDATE User SET ? WHERE idUser = ?';
+                let queryOptions = [
+                    // user
+                    newUser,
+                    // idUser
+                    id
+                ];
+
+                return BaseDao.dbConnection.query(query, queryOptions, function (err) {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    return UserDao.getById(id).then(updatedUser => resolve(updatedUser)).catch(err => reject(err));
+                });
+            }).catch(function (err) {
+                return reject(err);
             });
         });
     }
@@ -138,4 +142,28 @@ module.exports = class UserDao {
             });
         });
     }
+
+    static encryptPassword(plaintext) {
+        return new Promise((resolve, reject) => {
+            if (!plaintext) {
+                resolve(plaintext);
+            }
+
+            bcrypt.genSalt(10, (err, salt) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                plaintext += pSalt;
+                bcrypt.hash(plaintext, salt, null, (err, hashPassword) => {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    resolve(hashPassword);
+                });
+            });
+        });
+    }
+
 };
