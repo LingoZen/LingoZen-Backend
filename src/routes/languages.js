@@ -14,6 +14,5 @@ router.put('/:id', LanguageController.update);
 
 router.delete('/:id', LanguageController.remove);
 
-
 //export routes
 module.exports = router;

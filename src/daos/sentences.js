@@ -99,13 +99,13 @@ module.exports = class SentenceDao {
                     });
                 },
                 function getCommentsForTranslations(cb) {
-                    async.each(translations, (translation) => {
+                    async.each(translations, (translation, iteratorCb) => {
                         CommentDao.getBySentenceId((translation.id)).then((comments) => {
                             translation.comments = comments;
                             translationsWithComments.push(JSON.parse(JSON.stringify(translation)));
-                            cb();
+                            iteratorCb();
                         }).catch((err) => {
-                            cb(err);
+                            iteratorCb(err);
                         });
                     }, (comments, err) => {
                         if (err) {

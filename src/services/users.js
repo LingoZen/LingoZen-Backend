@@ -123,7 +123,7 @@ module.exports = class UserService {
                     return reject(new Error("Updating with a empty object"));
                 }
 
-                if (whiteListedUser.password && whiteListedUser.password === '') {
+                if (typeof whiteListedUser.password === 'string' && whiteListedUser.password === '') {
                     delete whiteListedUser.password;
                 }
 
