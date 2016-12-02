@@ -135,7 +135,7 @@ module.exports = class SentenceDao {
 
     static create(sentence) {
         return new Promise((resolve, reject) => {
-            if(!sentence.language){
+            if (!sentence.language) {
                 return reject('sentence.language not defined');
             }
 
@@ -151,7 +151,8 @@ module.exports = class SentenceDao {
                     return reject(error);
                 }
 
-                resolve(response._source);
+                let sentenceObject = {id: response._id};
+                return resolve(sentenceObject);
             });
         });
     }

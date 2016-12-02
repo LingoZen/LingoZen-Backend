@@ -23,7 +23,7 @@ module.exports = class LanguageDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM Language WHERE idLanguage = ?';
+            let query = 'SELECT * FROM Language WHERE id = ?';
             let queryOptions = [
                 //idLanguage
                 id
@@ -56,7 +56,7 @@ module.exports = class LanguageDao {
 
     static update(id, newLanguage) {
         return new Promise((resolve, reject) => {
-            let query = 'UPDATE Language SET ? WHERE idLanguage = ?';
+            let query = 'UPDATE Language SET ? WHERE id = ?';
             let queryOptions = [
                 // language
                 newLanguage,
@@ -77,7 +77,7 @@ module.exports = class LanguageDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             LanguageDao.getById(id).then((languageToBeDeleted) => {
-                let query = 'DELETE FROM Language WHERE idLanguage = ?';
+                let query = 'DELETE FROM Language WHERE id = ?';
                 let queryOptions = [
                     //idLanguage
                     id

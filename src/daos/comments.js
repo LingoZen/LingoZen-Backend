@@ -3,7 +3,7 @@ let BaseDao = require('../daos/base');
 module.exports = class CommentDao {
     static getBySentenceId(id){
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM Comment WHERE idSentence = ?';
+            let query = 'SELECT * FROM Comment WHERE sentence = ?';
             let queryOptions = [
                 //idSentence
                 id
@@ -41,7 +41,7 @@ module.exports = class CommentDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM Comment WHERE idComment = ?';
+            let query = 'SELECT * FROM Comment WHERE id = ?';
             let queryOptions = [
                 //idComment
                 id
@@ -59,7 +59,7 @@ module.exports = class CommentDao {
 
     static getByDeckId(id) {
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM Comment WHERE idDeck = ?';
+            let query = 'SELECT * FROM Comment WHERE deck = ?';
             let queryOptions = [
                 //idComment
                 id
@@ -92,7 +92,7 @@ module.exports = class CommentDao {
 
     static update(id, newComment) {
         return new Promise((resolve, reject) => {
-            let query = 'UPDATE Comment SET ? WHERE idComment = ?';
+            let query = 'UPDATE Comment SET ? WHERE id = ?';
             let queryOptions = [
                 // comment
                 newComment,
@@ -113,7 +113,7 @@ module.exports = class CommentDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             CommentDao.getById(id).then((commentToBeDeleted) => {
-                let query = 'DELETE FROM Comment WHERE idComment = ?';
+                let query = 'DELETE FROM Comment WHERE id = ?';
                 let queryOptions = [
                     //idComment
                     id

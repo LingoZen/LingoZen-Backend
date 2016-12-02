@@ -25,7 +25,7 @@ module.exports = class UserDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM User WHERE idUser = ?';
+            let query = 'SELECT * FROM User WHERE id = ?';
             let queryOptions = [
                 //idUser
                 id
@@ -100,7 +100,7 @@ module.exports = class UserDao {
                     newUser.password = hashPassword;
                 }
 
-                let query = 'UPDATE User SET ? WHERE idUser = ?';
+                let query = 'UPDATE User SET ? WHERE id = ?';
                 let queryOptions = [
                     // user
                     newUser,
@@ -124,7 +124,7 @@ module.exports = class UserDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             UserDao.getById(id).then((userToBeDeleted) => {
-                let query = 'DELETE FROM User WHERE idUser = ?';
+                let query = 'DELETE FROM User WHERE id = ?';
                 let queryOptions = [
                     //idUser
                     id
@@ -165,5 +165,4 @@ module.exports = class UserDao {
             });
         });
     }
-
 };

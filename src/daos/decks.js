@@ -23,7 +23,7 @@ module.exports = class DeckDao {
 
     static getById(id) {
         return new Promise((resolve, reject) => {
-            let query = 'SELECT * FROM Deck WHERE idDeck = ?';
+            let query = 'SELECT * FROM Deck WHERE id = ?';
             let queryOptions = [
                 //idDeck
                 id
@@ -56,7 +56,7 @@ module.exports = class DeckDao {
 
     static update(id, newDeck) {
         return new Promise((resolve, reject) => {
-            let query = 'UPDATE Deck SET ? WHERE idDeck = ?';
+            let query = 'UPDATE Deck SET ? WHERE id = ?';
             let queryOptions = [
                 // deck
                 newDeck,
@@ -77,7 +77,7 @@ module.exports = class DeckDao {
     static remove(id) {
         return new Promise((resolve, reject) => {
             DeckDao.getById(id).then((deckToBeDeleted) => {
-                let query = 'DELETE FROM Deck WHERE idDeck = ?';
+                let query = 'DELETE FROM Deck WHERE id = ?';
                 let queryOptions = [
                     //idDeck
                     id

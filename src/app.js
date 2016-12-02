@@ -1,6 +1,8 @@
 /**
  * Libs
  */
+
+console.log('i hate life');
 let express = require('express');
 let path = require('path');
 let logger = require('morgan');

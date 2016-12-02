@@ -58,8 +58,8 @@ module.exports = class SentenceService {
             sentence.addedDate = new Date();
             sentence.lastModifiedDate = new Date();
 
-            SentenceDao.create(sentence).then((translation) => {
-                resolve(translation);
+            SentenceDao.create(sentence).then((sentenceObject) => {
+                resolve(sentenceObject);
             }).catch((error) => {
                 reject(error);
             });
