@@ -5,7 +5,7 @@ module.exports = class CommentDao {
         return new Promise((resolve, reject) => {
             let query = 'SELECT * FROM Comment WHERE sentence = ?';
             let queryOptions = [
-                //idSentence
+                //sentence
                 id
             ];
 

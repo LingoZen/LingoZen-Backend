@@ -8,12 +8,12 @@ let CommentDao = require('../daos/comments');
  */
 module.exports = class DeckService {
     static creatableProperties = [
-        'idUser',
+        'user',
         'title',
         'description'
     ];
     static propertiesRequiredToCreate = [
-        'idUser',
+        'user',
         'title',
     ];
     static updatableProperties = [
@@ -97,7 +97,7 @@ module.exports = class DeckService {
                 }
 
                 //check if deck belongs to user
-                if (deck.idUser !== userId) {
+                if (deck.user !== userId) {
                     return reject(new Error('User updating is not user that created the deck'));
                 }
 
@@ -136,7 +136,7 @@ module.exports = class DeckService {
                 }
 
                 //check if deck belongs to user
-                if (deck.idUser !== userId) {
+                if (deck.user !== userId) {
                     return reject(Error('User deleting is not user that created'));
                 }
 

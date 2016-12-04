@@ -19,7 +19,8 @@ module.exports = class SentenceDao {
 
             BaseDao.esClient.search({
                 index: '_all',
-                body: query
+                body: query,
+                size: 1000
             }, function (error, response) {
                 if (error) {
                     return reject(error);
@@ -141,6 +142,7 @@ module.exports = class SentenceDao {
 
             let index = 'lingozen-' + sentence.language;
             let id = `${sentence.language}_${uuid.v4()}`;
+            sentence.id = id;
             BaseDao.esClient.create({
                 index: index,
                 type: 'sentence',

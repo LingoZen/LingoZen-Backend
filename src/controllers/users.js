@@ -51,7 +51,7 @@ module.exports = class UserController {
     static update(req, res, next) {
         let request = new RequestParameters(req);
 
-        UserService.update(request.id, request.body, request.idUser).then((user) => {
+        UserService.update(request.id, request.body, request.user).then((user) => {
             return res.send(user);
         }).catch((err) => {
             return next(err);
@@ -61,7 +61,7 @@ module.exports = class UserController {
     static updateJwtUser(req, res, next) {
         let request = new RequestParameters(req);
 
-        UserService.update(request.idUser, request.body, request.idUser).then((user) => {
+        UserService.update(request.user, request.body, request.user).then((user) => {
             return res.send(user);
         }).catch((err) => {
             return next(err);

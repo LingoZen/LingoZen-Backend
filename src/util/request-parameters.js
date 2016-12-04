@@ -30,9 +30,9 @@ export class RequestParameters {
         this._body = request.body || {};
 
         if (request.headers.authorization && request.headers.authorization.indexOf('Bearer ') > -1) {
-            let idUser = jwt.decode(request.headers.authorization.split('Bearer ')[1]).idUser;
-            if (idUser) {
-                this.idUser = idUser;
+            let user = jwt.decode(request.headers.authorization.split('Bearer ')[1]).id;
+            if (user) {
+                this.user = user;
             }
         }
     }
@@ -86,11 +86,7 @@ export class RequestParameters {
             return this._user = {};
         }
 
-        if (typeof user === 'object') {
-            return this._user = user;
-        }
-
-        return this._user = null;
+        return this._user = user;
     }
 
     set body(body) {

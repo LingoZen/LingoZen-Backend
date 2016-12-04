@@ -30,7 +30,7 @@ module.exports = class SentenceController {
 
     static addTranslation(req, res, next) {
         let request = new RequestParameters(req);
-        request.body.idUser = request.idUser;
+        request.body.user = request.user;
         request.body.translationOf = request.id;
 
         SentenceService.create(request.body).then((sentence) => {
@@ -42,7 +42,7 @@ module.exports = class SentenceController {
 
     static create(req, res, next) {
         let request = new RequestParameters(req);
-        request.body.idUser = request.idUser;
+        request.body.user = request.user;
 
         SentenceService.create(request.body).then((sentence) => {
             return res.send(sentence);

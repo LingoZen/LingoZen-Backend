@@ -6,13 +6,13 @@ let CommentDao = require('../daos/comments');
  */
 module.exports = class CommentService {
     static creatableProperties = [
-        'idUser',
-        'idSentence',
+        'user',
+        'sentence',
         'description'
     ];
     static propertiesRequiredToCreate = [
-        'idUser',
-        'idSentence',
+        'user',
+        'sentence',
         'description'
     ];
     static updatableProperties = [
@@ -74,7 +74,7 @@ module.exports = class CommentService {
                 }
 
                 //check if comment belongs to user
-                if (comment.idUser !== userId) {
+                if (comment.user !== userId) {
                     return reject(new Error('User updating is not user that created the comment'));
                 }
 
@@ -113,7 +113,7 @@ module.exports = class CommentService {
                 }
 
                 //check if comment belongs to user
-                if (comment.idUser !== userId) {
+                if (comment.user !== userId) {
                     return reject(Error('User deleting is not user that created'));
                 }
 

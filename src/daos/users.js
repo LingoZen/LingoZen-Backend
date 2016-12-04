@@ -27,7 +27,7 @@ module.exports = class UserDao {
         return new Promise((resolve, reject) => {
             let query = 'SELECT * FROM User WHERE id = ?';
             let queryOptions = [
-                //idUser
+                //user
                 id
             ];
 
@@ -104,7 +104,7 @@ module.exports = class UserDao {
                 let queryOptions = [
                     // user
                     newUser,
-                    // idUser
+                    // user
                     id
                 ];
 
@@ -126,7 +126,7 @@ module.exports = class UserDao {
             UserDao.getById(id).then((userToBeDeleted) => {
                 let query = 'DELETE FROM User WHERE id = ?';
                 let queryOptions = [
-                    //idUser
+                    //user
                     id
                 ];
 
