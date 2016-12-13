@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-
 var app = require('../dist/app');
 // var app = require('../dist-prod/app');
 var debug = require('debug')('LingoZen-2:server');
@@ -15,7 +14,6 @@ var fs = require("fs");
 /**
  * Get port from environment and store in Express.
  */
-
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 

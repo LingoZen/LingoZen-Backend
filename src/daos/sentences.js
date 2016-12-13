@@ -7,15 +7,33 @@ module.exports = class SentenceDao {
     static search(word) {
         return new Promise((resolve, reject) => {
             let sentences = {};
-            let query = JSON.stringify({
-                query: {
-                    query_string: {
-                        default_field: 'text',
-                        query: word,
-                        analyze_wildcard: true
-                    }
-                }
-            });
+            let query;
+
+            switch (word) {
+                case '*':
+                    query = {};
+                    break;
+                default:
+                    query = JSON.stringify({
+                        query: {
+                            bool: {
+                                must: {
+                                    match_phrase_prefix: {
+                                        text: word
+                                    }
+                                },
+                                filter: {
+                                    bool: {
+                                        must_not: {
+                                            exists: {field: "translationOf"}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    break;
+            }
 
             BaseDao.esClient.search({
                 index: '_all',
